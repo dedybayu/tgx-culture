@@ -83,7 +83,7 @@
                 // Get fallback image or use path_gambar if exists
                 $imageSrc = $fallbackImages[$category->nama_kategori] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop';
             @endphp
-            <div class="category-card group relative flex flex-col items-center bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 p-4" data-name="{{ strtolower($category->nama_kategori) }}">
+            <a href="{{ route('jelajah', ['kategori' => $category->kategori_id]) }}" class="category-card group relative flex flex-col items-center bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 p-4" data-name="{{ strtolower($category->nama_kategori) }}">
                 <!-- Image Container with fixed Aspect Ratio -->
                 <div class="w-full aspect-[4/5] rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 shadow-inner">
                     <!-- Photo Display / Placeholder -->
@@ -107,7 +107,7 @@
                         {{ $category->nama_kategori }}
                     </h3>
                 </div>
-            </div>
+            </a>
         @empty
             <div class="col-span-full py-16 text-center">
                 <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">

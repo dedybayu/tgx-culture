@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('logo-trenggalek.png') }}">
+    
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
@@ -34,11 +37,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Logo Section -->
             <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                <!-- Trenggalek Styled Logo SVG -->
-                <div class="w-11 h-11 bg-emerald-50 rounded-xl border border-emerald-500/20 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
-                    <svg class="w-7 h-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
+                <!-- Trenggalek Logo Image -->
+                <div class="w-11 h-11 bg-white rounded-xl border border-slate-100 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300 p-1">
+                    <img src="{{ asset('logo-trenggalek.png') }}" alt="Logo Trenggalek" class="w-full h-full object-contain">
                 </div>
                 <div>
                     <span class="block text-lg font-bold tracking-tight text-slate-800 leading-tight">TGX</span>
@@ -72,10 +73,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                        </svg>
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-1 border border-slate-800">
+                        <img src="{{ asset('logo-trenggalek.png') }}" alt="Logo Trenggalek" class="w-full h-full object-contain">
                     </div>
                     <span class="text-white font-bold text-lg tracking-tight">TGX <span class="text-emerald-500">CULTURE</span></span>
                 </div>
