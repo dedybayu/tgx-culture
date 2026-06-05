@@ -42,4 +42,9 @@ class LandingController extends Controller
 
         return view('landing.jelajah', compact('categories', 'katalogs'));
     }
+
+    public function tentang()
+    {
+        return view('landing.tentang');
+    }
 }

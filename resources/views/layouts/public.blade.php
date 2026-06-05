@@ -48,10 +48,10 @@
             </a>
 
             <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-                <a href="{{ route('home') }}" class="hover:text-emerald-600 transition-colors duration-200">Beranda</a>
-                <a href="{{ route('jelajah') }}" class="hover:text-emerald-600 transition-colors duration-200">Katalog Budaya</a>
-                <a href="#" class="hover:text-emerald-600 transition-colors duration-200">Tentang Kami</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="{{ route('home') }}" class="transition-colors duration-200 py-1.5 border-b-2 {{ request()->routeIs('home') ? 'text-emerald-600 border-emerald-600 font-semibold' : 'text-slate-600 border-transparent hover:text-emerald-600' }}">Beranda</a>
+                <a href="{{ route('jelajah') }}" class="transition-colors duration-200 py-1.5 border-b-2 {{ request()->routeIs('jelajah') ? 'text-emerald-600 border-emerald-600 font-semibold' : 'text-slate-600 border-transparent hover:text-emerald-600' }}">Katalog Budaya</a>
+                <a href="{{ route('tentang') }}" class="transition-colors duration-200 py-1.5 border-b-2 {{ request()->routeIs('tentang') ? 'text-emerald-600 border-emerald-600 font-semibold' : 'text-slate-600 border-transparent hover:text-emerald-600' }}">Tentang Kami</a>
             </nav>
 
             <!-- Action Button -->
