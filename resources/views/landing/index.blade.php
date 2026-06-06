@@ -80,8 +80,8 @@
     <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         @forelse ($categories as $category)
             @php
-                // Get fallback image or use path_gambar if exists
-                $imageSrc = $fallbackImages[$category->nama_kategori] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop';
+                $localFileExists = $category->path_gambar && file_exists(public_path($category->path_gambar));
+                $imageSrc = $localFileExists ? asset($category->path_gambar) : ($fallbackImages[$category->nama_kategori] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop');
             @endphp
             <a href="{{ route('jelajah', ['kategori' => $category->kategori_id]) }}" class="category-card group relative flex flex-col items-center bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 p-4" data-name="{{ strtolower($category->nama_kategori) }}">
                 <!-- Image Container with fixed Aspect Ratio -->

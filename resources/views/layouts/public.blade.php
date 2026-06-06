@@ -54,18 +54,47 @@
                 <a href="{{ route('tentang') }}" class="transition-colors duration-200 py-1.5 border-b-2 {{ request()->routeIs('tentang') ? 'text-emerald-600 border-emerald-600 font-semibold' : 'text-slate-600 border-transparent hover:text-emerald-600' }}">Tentang Kami</a>
             </nav>
 
-            <!-- Action Button -->
+            <!-- Action Button & Hamburger -->
             <div class="flex items-center gap-3">
-                @auth
-                    <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('admin.katalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 active:bg-emerald-700 transition-all duration-200 shadow-sm">
-                        Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:bg-slate-950 transition-all duration-200 shadow-sm">
-                        Masuk
-                    </a>
-                @endauth
+                <div class="hidden sm:flex items-center gap-3">
+                    @auth
+                        <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('admin.katalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 active:bg-emerald-700 transition-all duration-200 shadow-sm">
+                            Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:bg-slate-950 transition-all duration-200 shadow-sm">
+                            Masuk
+                        </a>
+                    @endauth
+                </div>
+                
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-500 hover:text-slate-800 focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg transition-all duration-300">
+            <nav class="flex flex-col p-4 space-y-3 font-medium text-sm">
+                <a href="{{ route('home') }}" class="px-3 py-2 rounded-xl {{ request()->routeIs('home') ? 'bg-emerald-50 text-emerald-600 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">Beranda</a>
+                <a href="{{ route('jelajah') }}" class="px-3 py-2 rounded-xl {{ request()->routeIs('jelajah') ? 'bg-emerald-50 text-emerald-600 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">Katalog Budaya</a>
+                <a href="{{ route('tentang') }}" class="px-3 py-2 rounded-xl {{ request()->routeIs('tentang') ? 'bg-emerald-50 text-emerald-600 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">Tentang Kami</a>
+                
+                <div class="h-px bg-slate-100 my-1 sm:hidden"></div>
+                
+                <div class="sm:hidden">
+                    @auth
+                        <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('admin.katalog.index') }}" class="flex items-center justify-center w-full py-2.5 text-center text-sm font-semibold text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 shadow-sm">
+                            Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="flex items-center justify-center w-full py-2.5 text-center text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 shadow-sm">
+                            Masuk
+                        </a>
+                    @endauth
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -91,5 +120,17 @@
         </div>
     </footer>
 
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.className = 'fa-solid fa-bars text-xl';
+            } else {
+                icon.className = 'fa-solid fa-xmark text-xl';
+            }
+        }
+    </script>
 </body>
 </html>

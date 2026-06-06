@@ -47,4 +47,10 @@ class LandingController extends Controller
     {
         return view('landing.tentang');
     }
+
+    public function show($id)
+    {
+        $katalog = Katalog::with(['kategori', 'user'])->findOrFail($id);
+        return view('landing.show', compact('katalog'));
+    }
 }

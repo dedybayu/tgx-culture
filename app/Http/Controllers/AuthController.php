@@ -62,6 +62,6 @@ class AuthController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('admin.katalog.index');
+        return redirect()->route('user.dashboard');
     }
 }

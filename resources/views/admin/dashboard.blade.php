@@ -86,7 +86,7 @@
             <a href="{{ route('admin.user.index') }}" class="group block p-5 border border-slate-100 rounded-2xl hover:border-rose-200 hover:bg-rose-50/10 transition-all">
                 <i class="fa-solid fa-users text-rose-500 text-lg mb-3"></i>
                 <h4 class="font-bold text-slate-800 group-hover:text-rose-700 transition-colors">Kelola User &rarr;</h4>
-                <p class="text-xs text-slate-400 mt-1">Atur pengguna sistem dan hak akses akun petugas.</p>
+                <p class="text-xs text-slate-400 mt-1">Atur pengguna sistem dan hak akses akun user.</p>
             </a>
         </div>
     </div>

@@ -11,33 +11,22 @@
 
         <div class="relative z-10 max-w-xl">
             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-4">
-                <i class="fa-solid fa-user-check mr-1.5"></i> Mode Petugas
+                <i class="fa-solid fa-user-check mr-1.5"></i> Mode User
             </span>
             <h2 class="text-3xl font-extrabold text-white tracking-tight leading-tight mb-2">Halo, {{ auth()->user()->nama }}!</h2>
             <p class="text-slate-300 text-sm leading-relaxed">
-                Selamat datang di panel petugas TGX Culture. Anda memiliki hak akses untuk mengelola data katalog budaya yang tersedia.
+                Selamat datang di panel user TGX Culture. Anda memiliki hak akses untuk mengelola data katalog budaya yang tersedia.
             </p>
         </div>
     </div>
 
     <!-- Quick Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Stat Card 1 -->
+    <div class="grid grid-cols-1 gap-6">
+        <!-- Stat Card: Total Katalog Dikelola -->
         <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-shadow">
             <div class="space-y-1">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Kategori Terhubung</span>
-                <span class="text-3xl font-bold text-slate-800 block">11</span>
-            </div>
-            <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500">
-                <i class="fa-solid fa-tags text-2xl"></i>
-            </div>
-        </div>
-
-        <!-- Stat Card 2 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-shadow">
-            <div class="space-y-1">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Katalog Dikelola</span>
-                <span class="text-3xl font-bold text-slate-800 block">22</span>
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Katalog Dikelola Anda</span>
+                <span class="text-3xl font-bold text-slate-800 block">{{ $totalKatalog }}</span>
             </div>
             <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-500">
                 <i class="fa-solid fa-book-open text-2xl"></i>

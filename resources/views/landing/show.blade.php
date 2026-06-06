@@ -1,38 +1,57 @@
-@extends('layouts.dashboard')
+@extends('layouts.public')
 
-@section('title', 'Detail Katalog - TGX Culture')
-@section('page_title', 'Detail Katalog')
+@section('title', $katalog->judul . ' - TGX Culture')
 
 @section('content')
-<div class="space-y-6">
+@php
+    // Mapping of category names to beautiful high-quality Unsplash image URLs as fallbacks
+    $fallbackImages = [
+        'Manuskrip' => 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop',
+        'Tradisi Lisan' => 'https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=600&auto=format&fit=crop',
+        'Adat Istiadat' => 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=600&auto=format&fit=crop',
+        'Ritus' => 'https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?q=80&w=600&auto=format&fit=crop',
+        'Pengetahuan Tradisional' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600&auto=format&fit=crop',
+        'Teknologi Tradisional' => 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop',
+        'Seni' => 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop',
+        'Bahasa' => 'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=600&auto=format&fit=crop',
+        'Permainan Rakyat' => 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop',
+        'Olahraga Tradisional' => 'https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=600&auto=format&fit=crop',
+        'Cagar Budaya' => 'https://images.unsplash.com/photo-1590075865003-e48277faa558?q=80&w=600&auto=format&fit=crop',
+    ];
+
+    $kategoriNama = $katalog->kategori ? $katalog->kategori->nama_kategori : '-';
+    $localFileExists = $katalog->path_gambar && file_exists(public_path($katalog->path_gambar));
+    
+    // Choose fallback based on category name
+    $fallbackUrl = $fallbackImages[$kategoriNama] ?? 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=600&q=80';
+    $imgUrl = $localFileExists ? asset($katalog->path_gambar) : $fallbackUrl;
+@endphp
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <!-- Header Navigation -->
-    <div class="flex items-center justify-between">
-        <a href="{{ route('admin.katalog.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+    <div class="mb-6 pt-4 flex items-center justify-between">
+        <a href="{{ route('jelajah') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
             <i class="fa-solid fa-arrow-left"></i>
-            Kembali ke Daftar Katalog
+            Kembali ke Jelajah Katalog
         </a>
     </div>
 
     <!-- Main Detail Wrapper -->
-    <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col lg:flex-row gap-8">
+    <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-100/50 flex flex-col lg:flex-row gap-8">
         <!-- Left Column: Image & Basic Info -->
         <div class="w-full lg:w-1/3 space-y-6">
             <div class="w-full aspect-[3/4] bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-inner flex items-center justify-center relative group">
-                @php
-                    $localFileExists = $katalog->path_gambar && file_exists(public_path($katalog->path_gambar));
-                    $imgUrl = $localFileExists ? asset($katalog->path_gambar) : 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=600&q=80';
-                @endphp
                 <img src="{{ $imgUrl }}" alt="{{ $katalog->judul }}" 
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 <span class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-600/90 text-white backdrop-blur-sm border border-emerald-500/20">
-                    {{ $katalog->kategori ? $katalog->kategori->nama_kategori : '-' }}
+                    {{ $kategoriNama }}
                 </span>
             </div>
             
             <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4.5 space-y-3">
                 <div class="flex justify-between items-center text-xs">
                     <span class="text-slate-400 font-medium">User Pengelola</span>
-                    <span class="font-bold text-slate-700">{{ $katalog->user ? $katalog->user->nama : 'Tidak diketahui' }}</span>
+                    <span class="font-bold text-slate-700">{{ $katalog->user ? $katalog->user->nama : 'Umum' }}</span>
                 </div>
                 <div class="flex justify-between items-center text-xs">
                     <span class="text-slate-400 font-medium">Terakhir Diperbarui</span>
@@ -112,14 +131,6 @@
                         {{ $katalog->deskripsi ?? 'Tidak ada deskripsi.' }}
                     </p>
                 </div>
-            </div>
-
-            <!-- Action buttons -->
-            <div class="flex items-center gap-3 pt-4 border-t border-slate-100 justify-end">
-                <a href="{{ route('admin.katalog.edit', $katalog->katalog_id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-sm transition-all">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Ubah Data
-                </a>
             </div>
         </div>
     </div>

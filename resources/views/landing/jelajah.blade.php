@@ -89,7 +89,8 @@
         @forelse ($katalogs as $katalog)
             @php
                 $categoryName = $katalog->kategori->nama_kategori ?? 'Umum';
-                $imageSrc = $fallbackImages[$categoryName] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop';
+                $localFileExists = $katalog->path_gambar && file_exists(public_path($katalog->path_gambar));
+                $imageSrc = $localFileExists ? asset($katalog->path_gambar) : ($fallbackImages[$categoryName] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop');
             @endphp
             <!-- Catalog Card (Vertical/Row layout) -->
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 p-5 sm:p-6 flex flex-col sm:flex-row gap-6 items-start">
@@ -145,7 +146,7 @@
                             <i class="fa-regular fa-clock"></i>
                             {{ $katalog->created_at ? $katalog->created_at->diffForHumans() : '-' }}
                         </p>
-                        <a href="#" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 hover:underline transition-all">
+                        <a href="{{ route('jelajah.show', $katalog->katalog_id) }}" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 hover:underline transition-all">
                             Detail
                             <i class="fa-solid fa-arrow-right text-[8px]"></i>
                         </a>
