@@ -90,7 +90,7 @@
                     <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                         <i class="fa-solid fa-arrow-right-to-bracket text-slate-400 group-hover:text-white transition-colors duration-200"></i>
                     </span>
-                    Masuk ke Dashboard
+                    Masuk
                 </button>
             </div>
         </form>
