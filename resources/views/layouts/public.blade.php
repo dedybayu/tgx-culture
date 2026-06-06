@@ -56,9 +56,15 @@
 
             <!-- Action Button -->
             <div class="flex items-center gap-3">
-                <a href="#" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:bg-slate-950 transition-all duration-200 shadow-sm">
-                    Masuk
-                </a>
+                @auth
+                    <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('admin.katalog.index') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 active:bg-emerald-700 transition-all duration-200 shadow-sm">
+                        Dashboard
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 active:bg-slate-950 transition-all duration-200 shadow-sm">
+                        Masuk
+                    </a>
+                @endauth
             </div>
         </div>
     </header>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('t_katalog', function (Blueprint $table) {
             $table->id('katalog_id');
             $table->unsignedBigInteger('kategori_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('judul');
             $table->text('deskripsi');
             $table->string('pencipta');
@@ -33,6 +34,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('kategori_id')->references('kategori_id')->on('m_kategori')->onDelete('cascade');
+            //FK User
+            $table->foreign('user_id')->references('user_id')->on('m_user')->onDelete('cascade');
         });
     }
 

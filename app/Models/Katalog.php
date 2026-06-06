@@ -15,6 +15,7 @@ class Katalog extends Model
 
     protected $fillable = [
         'kategori_id',
+        'user_id',
         'judul',
         'deskripsi',
         'pencipta',
@@ -40,5 +41,10 @@ class Katalog extends Model
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'kategori_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }

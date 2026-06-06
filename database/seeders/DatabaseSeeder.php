@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         // 1. Seed Users (m_user)
-        User::create([
+        $admin = User::create([
             'username' => 'superadmin',
             'password' => Hash::make('password'),
             'nama' => 'Super Admin',
@@ -67,6 +67,7 @@ class DatabaseSeeder extends Seeder
             for ($i = 1; $i <= 2; $i++) {
                 Katalog::create([
                     'kategori_id' => $kategori->kategori_id,
+                    'user_id' => $admin->user_id,
                     'judul' => $namaKategori . ' ' . $faker->words(3, true),
                     'deskripsi' => $faker->paragraph(3),
                     'pencipta' => $faker->name,
