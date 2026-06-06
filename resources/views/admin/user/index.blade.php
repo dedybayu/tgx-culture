@@ -55,7 +55,11 @@
                     <tr class="hover:bg-slate-50/50 transition-colors">
                         <td class="px-6 py-4 font-medium text-slate-500">{{ $users->firstItem() + $index }}</td>
                         <td class="px-6 py-4">
-                            <span class="font-bold text-slate-800">{{ $u->nama }}</span>
+                            <span class="font-bold text-slate-800">{{ $u->nama }}
+                                @if($u->user_id === auth()->id())
+                                    <span class="ml-1 text-slate-500">(Anda)</span>
+                                @endif
+                            </span>
                         </td>
                         <td class="px-6 py-4">
                             <span class="text-slate-600">{{ $u->username }}</span>
@@ -75,15 +79,24 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="inline-flex gap-2 justify-center">
-                                <button onclick="openEditModal(this)" 
-                                    class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" 
-                                    title="Ubah"
-                                    data-id="{{ $u->user_id }}"
-                                    data-nama="{{ $u->nama }}"
-                                    data-username="{{ $u->username }}"
-                                    data-is_admin="{{ $u->is_admin ? 1 : 0 }}">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
+                                @if($u->user_id === auth()->id())
+                                    <button onclick="openWarningModal('Anda tidak dapat mengubah data Anda sendiri dari halaman manajemen user. Silakan ubah melalui menu Profil Saya!')" 
+                                        type="button"
+                                        class="p-2 text-slate-300 hover:bg-slate-50 hover:text-slate-400 rounded-lg transition-colors" 
+                                        title="Ubah (Dinonaktifkan)">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                @else
+                                    <button onclick="openEditModal(this)" 
+                                        class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" 
+                                        title="Ubah"
+                                        data-id="{{ $u->user_id }}"
+                                        data-nama="{{ $u->nama }}"
+                                        data-username="{{ $u->username }}"
+                                        data-is_admin="{{ $u->is_admin ? 1 : 0 }}">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                @endif
                                 @if($u->username === 'superadmin' || $u->user_id === auth()->id())
                                     <button onclick="openWarningModal('User ini tidak boleh dihapus karena merupakan akun superadmin atau akun yang sedang Anda gunakan saat ini!')" type="button" class="p-2 text-slate-300 hover:bg-slate-50 hover:text-slate-400 rounded-lg transition-colors" title="Hapus (Dinonaktifkan)">
                                         <i class="fa-solid fa-trash-can"></i>

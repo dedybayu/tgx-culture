@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -22,13 +23,12 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/admin/user-dashboard', function () {
-        if (auth()->user()->is_admin) {
-            return redirect()->route('admin.dashboard');
-        }
-        $totalKatalog = \App\Models\Katalog::where('user_id', auth()->id())->count();
-        return view('user.dashboard', compact('totalKatalog'));
-    })->name('user.dashboard');
+    // Profile Management
+    Route::get('/admin/profile', [UserController::class, 'showProfile'])->name('profile');
+    Route::put('/admin/profile', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/admin/profile/password', [UserController::class, 'updatePassword'])->name('profile.password');
+
+    Route::get('/admin/user-dashboard', [DashboardController::class, 'user'])->name('user.dashboard');
 
     // Both Admin and Regular User can access catalog management
     Route::get('/admin/katalog', [KatalogController::class, 'index'])->name('admin.katalog.index');
@@ -41,9 +41,7 @@ Route::middleware('auth')->group(function () {
 
     // Admin-only routes
     Route::middleware('admin')->group(function () {
-        Route::get('/admin/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
 
         // Category CRUD
         Route::get('/admin/kategori', [KategoriController::class, 'index'])->name('admin.kategori.index');

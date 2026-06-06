@@ -27,11 +27,7 @@
         <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-shadow">
             <div class="space-y-1">
                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Kategori Budaya</span>
-                <span class="text-3xl font-bold text-slate-800 block">11</span>
-                <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                    <i class="fa-solid fa-arrow-trend-up"></i>
-                    <span>Tersinkronisasi</span>
-                </span>
+                <span class="text-3xl font-bold text-slate-800 block">{{ $totalKategori }}</span>
             </div>
             <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500 group-hover:scale-105 transition-transform">
                 <i class="fa-solid fa-tags text-2xl"></i>
@@ -41,12 +37,8 @@
         <!-- Stat Card 2 -->
         <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-shadow">
             <div class="space-y-1">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Katalog</span>
-                <span class="text-3xl font-bold text-slate-800 block">22</span>
-                <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                    <i class="fa-solid fa-arrow-trend-up"></i>
-                    <span>Tersedia Publik</span>
-                </span>
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Katalog Anda</span>
+                <span class="text-3xl font-bold text-slate-800 block">{{ $totalKatalog }}</span>
             </div>
             <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-500 group-hover:scale-105 transition-transform">
                 <i class="fa-solid fa-book-open text-2xl"></i>
@@ -57,11 +49,7 @@
         <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-shadow">
             <div class="space-y-1">
                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Pengguna</span>
-                <span class="text-3xl font-bold text-slate-800 block">2</span>
-                <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                    <i class="fa-solid fa-shield-check"></i>
-                    <span>Sistem Terlindungi</span>
-                </span>
+                <span class="text-3xl font-bold text-slate-800 block">{{ $totalUser }}</span>
             </div>
             <div class="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 group-hover:scale-105 transition-transform">
                 <i class="fa-solid fa-users text-2xl"></i>

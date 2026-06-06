@@ -100,4 +100,60 @@ class UserController extends Controller
         return redirect()->route('admin.user.index')
             ->with('success', 'User "' . $user->nama . '" berhasil dihapus.');
     }
+
+    /**
+     * Show the profile page of the authenticated user.
+     */
+    public function showProfile()
+    {
+        $user = auth()->user();
+        return view('profile.profile', compact('user'));
+    }
+
+    /**
+     * Update the authenticated user's profile details.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:m_user,username,' . $user->user_id . ',user_id'],
+        ]);
+
+        $user->update([
+            'nama' => $request->nama,
+            'username' => $request->username,
+        ]);
+
+        return redirect()->route('profile')
+            ->with('success', 'Profil Anda berhasil diperbarui.');
+    }
+
+    /**
+     * Update the authenticated user's password.
+     */
+    public function updatePassword(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->route('profile')
+                ->withErrors(['current_password' => 'Kata sandi saat ini tidak cocok dengan data kami.'])
+                ->with('error', 'Gagal memperbarui kata sandi. Kata sandi saat ini salah.');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('profile')
+            ->with('success', 'Kata sandi Anda berhasil diperbarui.');
+    }
 }

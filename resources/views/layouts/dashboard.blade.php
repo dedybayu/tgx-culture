@@ -99,17 +99,18 @@
 
         <!-- User Information & Logout -->
         <div class="p-4 border-t border-slate-800/60 bg-slate-950/20">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 bg-slate-800 border border-slate-700 text-white font-semibold flex items-center justify-center rounded-xl">
+            <a href="{{ route('profile') }}" class="flex items-center gap-3 mb-4 p-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group">
+                <div class="w-10 h-10 bg-slate-800 border border-slate-700 text-white font-semibold flex items-center justify-center rounded-xl group-hover:border-slate-500 transition-colors">
                     {{ substr(auth()->user()->nama, 0, 1) }}
                 </div>
                 <div class="min-w-0 flex-1">
-                    <p class="text-sm font-semibold text-white truncate">{{ auth()->user()->nama }}</p>
+                    <p class="text-sm font-semibold text-white truncate group-hover:text-emerald-400 transition-colors">{{ auth()->user()->nama }}</p>
                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium {{ auth()->user()->is_admin ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20' }}">
                         {{ auth()->user()->is_admin ? 'Administrator' : 'User' }}
                     </span>
                 </div>
-            </div>
+                <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-slate-300 transition-colors"></i>
+            </a>
             
             <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="hidden">
                 @csrf
