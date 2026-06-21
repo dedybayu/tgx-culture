@@ -3,22 +3,7 @@
 @section('title', 'TGX Culture - Jelajah Katalog Budaya')
 
 @section('content')
-@php
-    // Mapping of category names to beautiful high-quality Unsplash image URLs as fallbacks
-    $fallbackImages = [
-        'Manuskrip' => 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop',
-        'Tradisi Lisan' => 'https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=600&auto=format&fit=crop',
-        'Adat Istiadat' => 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=600&auto=format&fit=crop',
-        'Ritus' => 'https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?q=80&w=600&auto=format&fit=crop',
-        'Pengetahuan Tradisional' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600&auto=format&fit=crop',
-        'Teknologi Tradisional' => 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop',
-        'Seni' => 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop',
-        'Bahasa' => 'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=600&auto=format&fit=crop',
-        'Permainan Rakyat' => 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop',
-        'Olahraga Tradisional' => 'https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=600&auto=format&fit=crop',
-        'Cagar Budaya' => 'https://images.unsplash.com/photo-1590075865003-e48277faa558?q=80&w=600&auto=format&fit=crop',
-    ];
-@endphp
+
 
 <!-- Hero / Welcome & Search Section -->
 <section class="relative bg-gradient-to-b from-emerald-50/50 to-white pt-12 pb-10 overflow-hidden">
@@ -89,18 +74,71 @@
         @forelse ($katalogs as $katalog)
             @php
                 $categoryName = $katalog->kategori->nama_kategori ?? 'Umum';
-                $localFileExists = $katalog->path_gambar && file_exists(public_path($katalog->path_gambar));
-                $imageSrc = $localFileExists ? asset($katalog->path_gambar) : ($fallbackImages[$categoryName] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop');
+                
+                $isLocal = function($path) {
+                    if (!$path) return false;
+                    return !preg_match('/^(http:\/\/|https:\/\/|\/\/)/i', $path);
+                };
+
+                $firstMedia = null;
+                $hasMedia = false;
+                $isBroken = false;
+                $mediaPath = null;
+                $mediaType = null;
+                $ytThumbnail = null;
+
+                if ($katalog->mediaKatalogs && $katalog->mediaKatalogs->isNotEmpty()) {
+                    $firstMedia = $katalog->mediaKatalogs->first();
+                    $hasMedia = true;
+                    $mediaType = $firstMedia->type;
+                    
+                    if ($mediaType === 'youtube') {
+                        $mediaPath = $firstMedia->path_link;
+                        preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|win/|user/[^/]+/|embed/|watch\?v=)|youtu\.be/)([^"&?/ ]{11})%i', $mediaPath, $match);
+                        $ytId = $match[1] ?? null;
+                        if ($ytId) {
+                            $ytThumbnail = "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg";
+                        }
+                    } else {
+                        $exists = !$isLocal($firstMedia->path_link) || file_exists(public_path($firstMedia->path_link));
+                        if ($exists) {
+                            $mediaPath = asset($firstMedia->path_link);
+                        } else {
+                            $isBroken = true;
+                            $mediaPath = $firstMedia->path_link;
+                        }
+                    }
+                }
             @endphp
             <!-- Catalog Card (Vertical/Row layout) -->
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 p-5 sm:p-6 flex flex-col sm:flex-row gap-6 items-start">
                 
                 <!-- Image Box on the left -->
-                <div class="w-full sm:w-44 h-44 rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 flex-shrink-0 shadow-inner">
-                    <img src="{{ $imageSrc }}" 
-                         alt="{{ $katalog->judul }}" 
-                         class="w-full h-full object-cover" 
-                         loading="lazy">
+                <div class="w-full sm:w-44 h-44 rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 flex-shrink-0 shadow-inner flex items-center justify-center">
+                    @if(!$hasMedia)
+                        <div class="flex flex-col items-center justify-center text-center p-3 text-slate-400">
+                            <i class="fa-regular fa-image text-3xl mb-1"></i>
+                            <span class="text-[10px] font-semibold">Tidak ada media</span>
+                        </div>
+                    @elseif($isBroken)
+                        <div class="flex flex-col items-center justify-center text-center p-3 text-rose-500 bg-rose-50 w-full h-full">
+                            <i class="fa-solid fa-image-slash text-2xl mb-1"></i>
+                            <span class="text-[10px] font-bold">Media Tidak Ditemukan</span>
+                        </div>
+                    @elseif($mediaType === 'youtube' && $ytThumbnail)
+                        <img src="{{ $ytThumbnail }}" alt="{{ $katalog->judul }}" class="w-full h-full object-cover" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center text-white text-lg">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                    @elseif($mediaType === 'video')
+                        <video src="{{ $mediaPath }}" class="w-full h-full object-cover" muted></video>
+                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center text-white text-lg">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    @else
+                        <img src="{{ $mediaPath }}" alt="{{ $katalog->judul }}" class="w-full h-full object-cover" loading="lazy">
+                    @endif
+
                     <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white px-2.5 py-0.5 rounded-lg text-[10px] font-bold tracking-wide shadow-sm">
                         {{ $categoryName }}
                     </span>

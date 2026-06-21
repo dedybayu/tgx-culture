@@ -18,7 +18,7 @@ class LandingController extends Controller
     {
         $categories = Kategori::all();
 
-        $query = Katalog::query()->with('kategori');
+        $query = Katalog::query()->with(['kategori', 'mediaKatalogs']);
 
         // Filter by search keyword
         if ($request->filled('search')) {

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Kategori;
 use App\Models\Katalog;
+use App\Models\MediaKatalog;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         // Disable foreign key constraints to safely truncate tables
         Schema::disableForeignKeyConstraints();
+        MediaKatalog::truncate();
         Katalog::truncate();
         Kategori::truncate();
         User::truncate();
@@ -65,7 +67,7 @@ class DatabaseSeeder extends Seeder
 
             // 3. Seed Katalog (t_katalog) - 2 items per category
             for ($i = 1; $i <= 2; $i++) {
-                Katalog::create([
+                $katalog = Katalog::create([
                     'kategori_id' => $kategori->kategori_id,
                     'user_id' => $admin->user_id,
                     'judul' => $namaKategori . ' ' . $faker->words(3, true),
@@ -74,7 +76,7 @@ class DatabaseSeeder extends Seeder
                     'subjek' => $faker->word,
                     'penerbit' => $faker->company,
                     'kontribusi' => $faker->name,
-                    'tanggal' => $faker->date(),
+                    'tanggal' => \Carbon\Carbon::parse($faker->date())->locale('id')->translatedFormat('j F Y'),
                     'tipe' => 'Fisik',
                     'format' => 'Buku / Dokumen',
                     'identitas' => 'ID-' . $faker->numerify('##########'),
@@ -83,7 +85,18 @@ class DatabaseSeeder extends Seeder
                     'hubungan' => $faker->word,
                     'lokasi' => $faker->city,
                     'hak_cipta' => 'Milik Publik / tgx-culture',
-                    'path_gambar' => 'katalog/' . Str::slug($namaKategori) . '-' . $i . '.jpg',
+                ]);
+
+                // Seed image media
+                $katalog->mediaKatalogs()->create([
+                    'type' => 'image',
+                    'path_link' => 'katalog/' . Str::slug($namaKategori) . '-' . $i . '.jpg',
+                ]);
+
+                // Seed dummy youtube media
+                $katalog->mediaKatalogs()->create([
+                    'type' => 'youtube',
+                    'path_link' => 'https://youtu.be/ykVOWGVSQGA',
                 ]);
             }
         }

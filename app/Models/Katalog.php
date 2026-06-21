@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Katalog extends Model
 {
@@ -31,11 +32,10 @@ class Katalog extends Model
         'hubungan',
         'lokasi',
         'hak_cipta',
-        'path_gambar',
     ];
 
     protected $casts = [
-        'tanggal' => 'date',
+        // tanggal is now a string
     ];
 
     public function kategori(): BelongsTo
@@ -46,5 +46,16 @@ class Katalog extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    public function mediaKatalogs(): HasMany
+    {
+        return $this->hasMany(MediaKatalog::class, 'katalog_id', 'katalog_id');
+    }
+
+    public function getPathGambarAttribute()
+    {
+        $firstGambar = $this->mediaKatalogs()->where('type', 'image')->first();
+        return $firstGambar ? $firstGambar->path_link : null;
     }
 }
