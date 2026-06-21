@@ -65,14 +65,11 @@
             @endphp
 
             @if($totalSlides === 0)
-                <div class="w-full aspect-[3/4] bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-inner flex flex-col items-center justify-center relative p-6 text-center" id="main-viewer">
+                <div class="w-full aspect-[3/4] bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-inner relative group" id="main-viewer">
                     <span class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-600/90 text-white backdrop-blur-sm border border-emerald-500/20 z-30">
                         {{ $katalog->kategori ? $katalog->kategori->nama_kategori : '-' }}
                     </span>
-                    <div class="text-slate-300 mb-2">
-                        <i class="fa-regular fa-image text-5xl"></i>
-                    </div>
-                    <span class="text-sm font-semibold text-slate-400">Tidak ada media sama sekali</span>
+                    <img src="{{ asset('assets/no-image.png') }}" alt="{{ $katalog->judul }}" class="w-full h-full object-cover">
                 </div>
             @else
                 <div class="w-full aspect-[3/4] bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-inner relative group" id="main-viewer">

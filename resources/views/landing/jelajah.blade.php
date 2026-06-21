@@ -115,16 +115,8 @@
                 
                 <!-- Image Box on the left -->
                 <div class="w-full sm:w-44 h-44 rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 flex-shrink-0 shadow-inner flex items-center justify-center">
-                    @if(!$hasMedia)
-                        <div class="flex flex-col items-center justify-center text-center p-3 text-slate-400">
-                            <i class="fa-regular fa-image text-3xl mb-1"></i>
-                            <span class="text-[10px] font-semibold">Tidak ada media</span>
-                        </div>
-                    @elseif($isBroken)
-                        <div class="flex flex-col items-center justify-center text-center p-3 text-rose-500 bg-rose-50 w-full h-full">
-                            <i class="fa-solid fa-image-slash text-2xl mb-1"></i>
-                            <span class="text-[10px] font-bold">Media Tidak Ditemukan</span>
-                        </div>
+                    @if(!$hasMedia || $isBroken)
+                        <img src="{{ asset('assets/no-image.png') }}" alt="{{ $katalog->judul }}" class="w-full h-full object-cover" loading="lazy">
                     @elseif($mediaType === 'youtube' && $ytThumbnail)
                         <img src="{{ $ytThumbnail }}" alt="{{ $katalog->judul }}" class="w-full h-full object-cover" loading="lazy">
                         <div class="absolute inset-0 bg-black/20 flex items-center justify-center text-white text-lg">

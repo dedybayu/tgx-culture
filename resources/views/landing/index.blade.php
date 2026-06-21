@@ -81,7 +81,7 @@
         @forelse ($categories as $category)
             @php
                 $localFileExists = $category->path_gambar && file_exists(public_path($category->path_gambar));
-                $imageSrc = $localFileExists ? asset($category->path_gambar) : ($fallbackImages[$category->nama_kategori] ?? 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop');
+                $imageSrc = $localFileExists ? asset($category->path_gambar) : asset('assets/no-image.png');
             @endphp
             <a href="{{ route('jelajah', ['kategori' => $category->kategori_id]) }}" class="category-card group relative flex flex-col items-center bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 p-4" data-name="{{ strtolower($category->nama_kategori) }}">
                 <!-- Image Container with fixed Aspect Ratio -->
