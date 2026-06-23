@@ -114,7 +114,7 @@
                     <span class="text-white font-bold text-lg tracking-tight">TGX <span class="text-emerald-500">CULTURE</span></span>
                 </div>
                 <p class="text-sm text-slate-500">
-                    &copy; {{ date('Y') }} Dinas Kebudayaan dan Pariwisata Kabupaten Trenggalek. All rights reserved.
+                    &copy; {{ date('Y') }} TGX Culture
                 </p>
             </div>
         </div>
